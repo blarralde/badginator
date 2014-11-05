@@ -1,12 +1,12 @@
-# coding: utf-8
+# encoding: utf-8
 $:.push File.expand_path('../lib', __FILE__)
 require 'badginator/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "badginator"
   spec.version       = Badginator::VERSION
-  spec.authors       = ["Steven Hilton"]
-  spec.email         = ["mshiltonj@gmail.com"]
+  spec.authors       = ["Steven Hilton", 'Benjamin Larralde']
+  spec.email         = ["ben@hackster.io"]
   spec.description   = %q{Add "badges" to any Rails model.}
   spec.summary       = %q{Badginator is a gem to add "badges" (or "trophies" or "achievements") to any model of a Rails application, like User or Player. Useful for game-oriented applications.}
   spec.homepage      = "https://github.com/mshiltonj/badginator"
@@ -24,6 +24,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "observr"
-
-
 end

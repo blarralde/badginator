@@ -4,5 +4,4 @@ class AwardedBadge < ActiveRecord::Base
   def badge
     Badginator.get_badge(badge_code.to_sym)
   end
-
 end

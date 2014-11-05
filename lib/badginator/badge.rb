@@ -1,27 +1,16 @@
 class Badginator
-  class Badge
+  class Badge < ActiveModel
 
-    def self.setters(*method_names)
-      method_names.each do |name|
-        send :define_method, name do |*data|
-          if data.length > 0
-            instance_variable_set "@#{name}", data.first
-          else
-            instance_variable_get "@#{name}"
-          end
-
-        end
-      end
+    def self.find code
+      ::Badginator.get_badge code
     end
 
-    setters :code, :name, :description, :condition, :disabled, :level, :image, :reward
+    setters :code, :name, :description, :condition, :disabled, :level, :image,
+      :revokable
 
-
-    def build_badge(&block)
-      instance_eval &block
+    def build(&block)
+      super &block
       @code = @code.to_sym if @code
     end
-
-
   end
 end

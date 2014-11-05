@@ -7,20 +7,31 @@ class Badginator
       }
     end
 
-    def try_award_badge(badge_name, context = {})
-      badge = Badginator.get_badge(badge_name)
+    def try_award_badge(badge_code, context = {})
+      badge = Badginator.get_badge(badge_code)
 
-      success =  badge.condition.call(self, context)
+      success =  if badge.respond_to?(:condition)
+        condition.call(self, context)
+      else
+        true
+      end
+
+      revokable = badge.respond_to?(:revokable) and badge.revokable
 
       if success
-        if (self.has_badge?(badge_name))
-          status = Badginator::Status(Badginator::ALREADY_WON)
+        if has_badge? badge_code
+          status = Badginator.status(Badginator::ALREADY_WON)
         else
           awarded_badge = AwardedBadge.create! awardee: self, badge_code: badge.code
-          status = Badginator::Status(Badginator::WON, awarded_badge)
+          status = Badginator.status(Badginator::WON, awarded_badge)
         end
       else
-        status = Badginator::Status(Badginator::DID_NOT_WIN)
+        if revokable and lost_badge = has_badge?(badge_code)
+          lost_badge.destroy
+          status = Badginator.status(Badginator::LOST, lost_badge)
+        else
+          status = Badginator.status(Badginator::DID_NOT_WIN)
+        end
       end
 
       status

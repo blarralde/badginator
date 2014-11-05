@@ -20,3 +20,4 @@ spec/dummy/log/
 tmp
 .idea
 badginator.iml
+*.DS_Store
